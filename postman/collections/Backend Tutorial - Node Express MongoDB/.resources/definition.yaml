@@ -1,0 +1,8 @@
+$kind: collection
+description: Test register/login and the authenticated Posts CRUD API. Run requests in order. Postman should retain the HTTP-only token cookie for localhost.
+variables:
+  baseUrl: http://localhost:5000
+  postId: ""
+  testName: Student One
+  testEmail: student@example.com
+  testPassword: student123

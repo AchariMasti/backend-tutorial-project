@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: 9d9f95cc-eda1-4475-8ebe-edc669c9c603
+
+cloudResources:
+  collections:
+    ../postman/collections/Backend Tutorial - Node Express MongoDB: 1831df7f-d8a4-4a92-9de1-f17f4f4ccc68
+
+# All resources in the `postman/` folder are automatically registered in Local View.
+# Point to additional files outside the `postman/` folder to register them individually. Example:
+#localResources:
+#  collections:
+#    - ../tests/E2E Test Collection/

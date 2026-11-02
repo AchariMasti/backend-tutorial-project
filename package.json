@@ -1,0 +1,25 @@
+{
+  "name": "backend-tutorial-project",
+  "version": "1.0.0",
+  "description": "Beginner backend project using Node.js, Express, MongoDB, Mongoose and Postman",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": ["nodejs", "express", "mongodb", "mongoose", "crud", "backend"],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

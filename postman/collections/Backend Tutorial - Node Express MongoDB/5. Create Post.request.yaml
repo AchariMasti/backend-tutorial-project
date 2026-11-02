@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/posts"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "My first backend post",
+      "content": "I built my first Express and MongoDB API."
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Post created', function () { pm.response.to.have.status(201); });
+      const response = pm.response.json();
+      if (response.data && response.data.post && response.data.post._id) { pm.collectionVariables.set('postId', response.data.post._id); }
+    language: text/javascript
+order: 5000

@@ -1,0 +1,87 @@
+{
+  "info": {
+    "_postman_id": "68e4ca30-2a4f-4aef-a190-1f38b85b96e1",
+    "name": "Backend Tutorial - Node Express MongoDB",
+    "description": "Test register/login and the authenticated Posts CRUD API. Run requests in order. Postman should retain the HTTP-only token cookie for localhost.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "postId", "value": "" },
+    { "key": "testName", "value": "Student One" },
+    { "key": "testEmail", "value": "student@example.com" },
+    { "key": "testPassword", "value": "student123" }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/health" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('API is healthy', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "2. Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"{{testName}}\",\n  \"email\": \"{{testEmail}}\",\n  \"password\": \"{{testPassword}}\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/auth/register"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Account created', function () { pm.response.to.have.status(201); });"] } }]
+    },
+    {
+      "name": "3. Login (use if already registered)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{testEmail}}\",\n  \"password\": \"{{testPassword}}\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/auth/login"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Login successful', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "4. Current User",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/auth/me" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Current user endpoint works', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "5. Create Post",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"My first backend post\",\n  \"content\": \"I built my first Express and MongoDB API.\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/posts"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Post created', function () { pm.response.to.have.status(201); });", "const response = pm.response.json();", "if (response.data && response.data.post && response.data.post._id) { pm.collectionVariables.set('postId', response.data.post._id); }"] } }]
+    },
+    {
+      "name": "6. Get All Posts",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/posts" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Posts retrieved', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "7. Get One Post",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/posts/{{postId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('One post retrieved', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "8. Update Post",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated post title\",\n  \"content\": \"This post was updated using the PATCH endpoint.\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": "{{baseUrl}}/api/posts/{{postId}}"
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Post updated', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "9. Delete Post",
+      "request": { "method": "DELETE", "header": [], "url": "{{baseUrl}}/api/posts/{{postId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Post deleted', function () { pm.response.to.have.status(200); });"] } }]
+    },
+    {
+      "name": "10. Logout",
+      "request": { "method": "POST", "header": [], "url": "{{baseUrl}}/api/auth/logout" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Logged out', function () { pm.response.to.have.status(200); });"] } }]
+    }
+  ]
+}
